@@ -39,17 +39,3 @@ process CHECKM2 {
 	END_VERSIONS
 	"""
 }
-
-    stub:
-    def args = task.ext.args ?: ''
-    prefix = task.ext.prefix ?: "${meta.id}"
-    """
-    mkdir -p ${prefix}/diamond_output ${prefix}/protein_files
-    touch ${prefix}/quality_report.tsv ${prefix}/checkm2.log
-
-    cat <<-END_VERSIONS > versions.yml
-    "${task.process}":
-        checkm2: \$(checkm2 --version)
-    END_VERSIONS
-    """
-}
