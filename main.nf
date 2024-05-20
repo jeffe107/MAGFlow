@@ -18,7 +18,7 @@ log.info """\
 	"""
 	.stripIndent()
 
-include { MAGFlow } from './workflow.nf'
+include { MAGFlow } from './workflows/magflow.nf'
 
 workflow {
 
