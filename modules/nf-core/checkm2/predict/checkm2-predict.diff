@@ -1,0 +1,148 @@
+Changes in module 'nf-core/checkm2/predict'
+--- modules/nf-core/checkm2/predict/meta.yml
++++ modules/nf-core/checkm2/predict/meta.yml
+@@ -18,42 +18,30 @@
+       licence: ["GPL v3"]
+ 
+ input:
+-  - meta:
+-      type: map
+-      description: |
+-        Groovy Map containing sample information
+-        e.g. `[ id:'test' ]`
+-  - dbmeta:
+-      type: map
+-      description: |
+-        Groovy Map containing database information
+-        e.g. `[ id:'test', version:1 ]`
+-  - fasta:
+-      type: file
+-      description: One or multiple FASTA files of each bin
+-      pattern: "*.{fasta,fna,fa}"
+-  - db:
+-      type: file
+-      description: CheckM2 database
+-
++  - sample:
++      type: val
++      description: Sample name.
++  - files:
++      type: directory
++      description: Path where the files containing nucleic acid sequence file in FASTA format "*.{fasta,fna,fa}".
++      pattern: 
++  - changed_dot_for_underscore:
++      type: string
++      description: Output from the process CHANGE_DOT_FOR_UNDERSCORE indicating that dots were removed from the file name.
++  - gtdbtk2_db:
++      type: string
++      description: Output from the process GTDBTK2_DB indicating that GTDB-Tk2 database was downloaded successfully.
++  - checkm2_db:
++      type: string
++      description: Output from the process CHECKM2_DB indicating that CheckM2 database was downloaded successfully.
+ output:
+-  - meta:
+-      type: map
+-      description: |
+-        Groovy Map containing sample information
+-        e.g. `[ id:'test' ]`
++  - checkm2:
++      type: directory
++      description: Directory containing all the files generated.
+   - versions:
+       type: file
+       description: File containing software versions
+       pattern: "versions.yml"
+-  - checkm_output:
+-      type: directory
+-      description: CheckM2 output directory
+-      pattern: "${prefix}/"
+-  - checkm_tsv:
+-      type: file
+-      description: CheckM2 summary completeness statistics table
+-      pattern: "*.tsv"
+ 
+ authors:
+   - "@dialvarezs"
+
+--- modules/nf-core/checkm2/predict/main.nf
++++ modules/nf-core/checkm2/predict/main.nf
+@@ -1,41 +1,44 @@
+-process CHECKM2_PREDICT {
+-    tag "${meta.id}"
+-    label 'process_medium'
++process CHECKM2 {
++	tag "$sample"
++	label 'process_medium'
+ 
+-    conda "bioconda::checkm2=1.0.1"
+-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+-        'https://depot.galaxyproject.org/singularity/checkm2:1.0.1--pyh7cba7a3_0':
+-        'biocontainers/checkm2:1.0.1--pyh7cba7a3_0' }"
++        conda "bioconda::checkm2=1.0.1 conda-forge::python=3.7.12"
++	container "${ params.use_singularity ?
++            'https://depot.galaxyproject.org/singularity/checkm2:1.0.1--pyh7cba7a3_0' :
++            'biocontainers/checkm2:1.0.1--pyh7cba7a3_0' }"
++	containerOptions "${ params.directory_to_bind == null ? '' : "--bind ${params.directory_to_bind}" }"
+ 
+-    input:
+-    tuple val(meta), path(fasta, stageAs: "input_bins/*")
+-    tuple val(dbmeta), path(db)
++	input:
++	tuple val(sample), path(files), val(change_dot_for_underscore)
++	val "checkm2_db"
++	val "gtdbtk2_db"
+ 
+-    output:
+-    tuple val(meta), path("${prefix}")                   , emit: checkm2_output
+-    tuple val(meta), path("${prefix}/quality_report.tsv"), emit: checkm2_tsv
+-    path("versions.yml")                                 , emit: versions
++	output:
++	path "checkm2", emit: checkm2
++	path "versions.yml", emit: versions
+ 
+-    when:
+-    task.ext.when == null || task.ext.when
++	script:
++	def outdir = params.outdir
++	def checkm2_db = params.checkm2_db ? 
++				"--database_path ${params.checkm2_db}" :
++				"--database_path ${params.outdir}/databases/CheckM2_database/uniref100.KO.1.dmnd"
++	def args = task.ext.args ?: ''
++	"""
++	EXTENSION=\$(echo ".\$(ls ${files}/* | head -n 1 | rev | cut -d. -f1 | rev)")
++	checkm2 predict \
++        --threads $task.cpus \
++        --input $files -x \$EXTENSION \
++        --output-directory checkm2 \
++	$checkm2_db \
++	--tmpdir "${outdir}/${sample}" \
++	$args
+ 
+-    script:
+-    def args = task.ext.args ?: ''
+-    prefix = task.ext.prefix ?: "${meta.id}"
+-    """
+-    checkm2 \\
+-        predict \\
+-        --input ${fasta} \\
+-        --output-directory ${prefix} \\
+-        --threads ${task.cpus} \\
+-        --database_path ${db} \\
+-        ${args}
+-
+-    cat <<-END_VERSIONS > versions.yml
+-    "${task.process}":
+-        checkm2: \$(checkm2 --version)
+-    END_VERSIONS
+-    """
++	cat <<-END_VERSIONS > versions.yml
++	"${task.process}":
++		checkm2: \$(checkm2 --version)
++	END_VERSIONS
++	"""
++}
+ 
+     stub:
+     def args = task.ext.args ?: ''
+
+************************************************************

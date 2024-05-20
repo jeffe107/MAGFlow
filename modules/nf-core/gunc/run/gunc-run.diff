@@ -1,0 +1,148 @@
+Changes in module 'nf-core/gunc/run'
+--- modules/nf-core/gunc/run/environment.yml
++++ modules/nf-core/gunc/run/environment.yml
+@@ -4,4 +4,4 @@
+   - bioconda
+   - defaults
+ dependencies:
+-  - bioconda::gunc=1.0.5
++  - bioconda::gunc=1.0.6
+
+--- modules/nf-core/gunc/run/meta.yml
++++ modules/nf-core/gunc/run/meta.yml
+@@ -15,37 +15,30 @@
+       doi: "10.1186/s13059-021-02393-0"
+       licence: ["GNU General Public v3 or later (GPL v3+)"]
+ input:
+-  - meta:
+-      type: map
+-      description: |
+-        Groovy Map containing sample information
+-        e.g. [ id:'test', single_end:false ]
+-  - fasta:
++  - sample:
++      type: val
++      description: Sample name.
++  - files:
++      type: directory
++      description: Path where the files containing nucleic acid sequence file in FASTA format "*.{fasta,fna,fa}".
++      pattern: 
++  - changed_dot_for_underscore:
++      type: string
++      description: Output from the process CHANGE_DOT_FOR_UNDERSCORE indicating that dots were removed from the file name.
++  - gtdbtk2_db:
++      type: string
++      description: Output from the process GTDBTK2_DB indicating that GTDB-Tk2 database was downloaded successfully.
++  - gunc_db:
++      type: string
++      description: Output from the process GUNC_DB indicating that GUNC database was downloaded successfully.
++output:
++  - gunc:
+       type: file
+-      description: FASTA file containing contig (bins)
+-      pattern: "*.fa"
+-  - db:
+-      type: file
+-      description: GUNC database file
+-      pattern: "*.dmnd"
+-output:
+-  - meta:
+-      type: map
+-      description: |
+-        Groovy Map containing sample information
+-        e.g. [ id:'test', single_end:false ]
++      description: Output file with scores for a taxonomic level with the highest CSS score.
+   - versions:
+       type: file
+       description: File containing software versions
+       pattern: "versions.yml"
+-  - maxcss_levels_tsv:
+-      type: file
+-      description: Output file with scores for a taxonomic level with the highest CSS score
+-      pattern: "*.tsv"
+-  - all_levels_tsv:
+-      type: file
+-      description: Optional output file with results for each taxonomic level
+-      pattern: "*.tsv"
+ authors:
+   - "@jfy133"
+ maintainers:
+
+--- modules/nf-core/gunc/run/main.nf
++++ modules/nf-core/gunc/run/main.nf
+@@ -1,38 +1,41 @@
+-process GUNC_RUN {
+-    tag "$meta.id"
+-    label 'process_medium'
++process GUNC {
++	tag "$sample"
++	errorStrategy 'ignore'
++	label 'process_high'
+ 
+-    conda "${moduleDir}/environment.yml"
+-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+-        'https://depot.galaxyproject.org/singularity/gunc:1.0.5--pyhdfd78af_0' :
+-        'biocontainers/gunc:1.0.5--pyhdfd78af_0' }"
++	conda "bioconda::gunc=1.0.6"
++	container "${ params.use_singularity ?
++            'https://depot.galaxyproject.org/singularity/gunc:1.0.6--pyhdfd78af_0' :
++            'biocontainers/gunc:1.0.6--pyhdfd78af_0' }"
++	containerOptions "${ params.directory_to_bind == null ? '' : "--bind ${params.directory_to_bind}" }"
+ 
+-    input:
+-    tuple val(meta), path(fasta)
+-    path(db)
++	input:
++	tuple val(sample), path(files), val(change_dot_for_underscore)
++	val "gunc_db"
++	val "gtdbtk2_db"
+ 
+-    output:
+-    tuple val(meta), path("*maxCSS_level.tsv")                  , emit: maxcss_level_tsv
+-    tuple val(meta), path("*all_levels.tsv")    , optional: true, emit: all_levels_tsv
+-    path "versions.yml"                                         , emit: versions
++	output:		
++	path "gunc/GUNC.progenomes_2.1.maxCSS_level.tsv", optional: true, emit: gunc
++	path "versions.yml", emit: versions
+ 
+-    when:
+-    task.ext.when == null || task.ext.when
++	script:
++	def outdir = params.outdir
++	def gunc_db = params.gunc_db ?
++				"-r ${params.gunc_db}" :
++				"-r ${outdir}/databases/GUNC_db/gunc_db_progenomes2.1.dmnd"
++	def args = task.ext.args ?: ''
++	"""
++	mkdir gunc
++	EXTENSION=\$(echo ".\$(ls ${files}/* | head -n 1 | rev | cut -d. -f1 | rev)")
++	gunc run -d ${files} \
++	-o gunc \
++	--threads $task.cpus \
++	--file_suffix \$EXTENSION \
++	$gunc_db $args
+ 
+-    script:
+-    def args = task.ext.args ?: ''
+-    def prefix = task.ext.prefix ?: "${meta.id}"
+-    """
+-    gunc \\
+-        run \\
+-        --input_fasta $fasta \\
+-        --db_file $db \\
+-        --threads $task.cpus \\
+-        $args
+-
+-    cat <<-END_VERSIONS > versions.yml
+-    "${task.process}":
+-        gunc: \$( gunc --version )
+-    END_VERSIONS
+-    """
++	cat <<-END_VERSIONS > versions.yml
++	"${task.process}":
++		gunc: \$( gunc --version )
++	END_VERSIONS
++	"""
+ }
+
+************************************************************

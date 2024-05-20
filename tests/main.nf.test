@@ -1,0 +1,31 @@
+nextflow_pipeline {
+
+    name "Test Workflow main.nf"
+    script "main.nf"
+    profile "apptainer"
+
+    test("Should run without failures") {
+
+        when {
+            params {
+                files			= '/data/projects/p774_MARSD/nf_core/MAGFlow/data/*'
+		outdir			= '/data/projects/p774_MARSD/nf_core/magflow_passing_lint/output'
+		gtdbtk2_db              = '/data/projects/p774_MARSD/software/GTDB/release207_v2'
+		gunc_db                 = '/data/projects/p774_MARSD/databases/gunc/gunc_db_progenomes2.1.dmnd'
+		directory_to_bind       = '/data/projects/p774_MARSD'
+
+            }
+        }
+
+        then {
+		assertAll(
+                { assert workflow.success },
+		{ assert new File("/data/projects/p774_MARSD/nf_core/output/pipeline_info/software_versions.yml").exists() },
+		{ assert new File("/data/projects/p774_MARSD/nf_core/output/final_df.tsv").exists() },
+		{ assert snapshot(path("/data/projects/p774_MARSD/nf_core/output/final_df.tsv")).match() }
+		)
+        }
+
+    }
+
+}

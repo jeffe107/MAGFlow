@@ -1,0 +1,226 @@
+Changes in module 'nf-core/quast'
+--- modules/nf-core/quast/meta.yml
++++ modules/nf-core/quast/meta.yml
+@@ -13,42 +13,24 @@
+       homepage: http://bioinf.spbau.ru/quast
+       doi: 10.1093/bioinformatics/btt086
+       licence: ["GPL-2.0-only"]
+-input:
+-  - consensus:
+-      type: file
+-      description: |
+-        Fasta file containing the assembly of interest
+-  - fasta:
+-      type: file
+-      description: |
+-        The genome assembly to be evaluated. Has to contain at least a non-empty string dummy value.
+-  - gff:
+-      type: file
+-      description: The genome GFF file. Has to contain at least a non-empty string dummy value.
++nput:
++  - sample:
++      type: val
++      description: Sample name.
++  - files:
++      type: directory
++      description: Path where the files containing nucleic acid sequence file in FASTA format "*.{fasta,fna,fa}".
++      pattern: 
++  - change_dot_for_underscore:
++      type: string
++      description: Output from the process CHANGE_DOT_FOR_UNDERSCORE indicating that dots were removed from the file name.
++  - gtdbtk2_db:
++      type: string
++      description: Output from the process GTDBTK2_DB indicating that GTDB-Tk2 database was downloaded successfully.
+ output:
+   - quast:
+       type: directory
+-      description: Directory containing complete quast report
+-      pattern: "{prefix}/"
+-  - report:
+-      type: file
+-      description: tab-separated version of the summary, suitable for spreadsheets and mqc
+-      pattern: "${prefix}.tsv"
+-  - misassemblies:
+-      type: file
+-      description: |
+-        Report containing misassemblies, only when a reference fasta is provided
+-      pattern: "${prefix}_misassemblies.tsv"
+-  - transcriptome:
+-      type: file
+-      description: |
+-        Report containing all the alignments of transcriptome to the assembly, only when a reference fasta is provided
+-      pattern: "${prefix}_transcriptome.tsv"
+-  - unaligned:
+-      type: file
+-      description: |
+-        Report containing unaligned contigs, only when a reference fasta is provided
+-      pattern: "${prefix}_unaligned.tsv"
++      description: Directory containing all the files generated.
+   - versions:
+       type: file
+       description: File containing software versions
+
+--- modules/nf-core/quast/main.nf
++++ modules/nf-core/quast/main.nf
+@@ -1,136 +1,29 @@
+ process QUAST {
+-    tag "$meta.id"
+-    label 'process_medium'
++	tag "$sample"
++	label 'process_medium'
+ 
+-    conda "${moduleDir}/environment.yml"
+-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+-        'https://depot.galaxyproject.org/singularity/quast:5.2.0--py39pl5321h2add14b_1' :
+-        'biocontainers/quast:5.2.0--py39pl5321h2add14b_1' }"
++	conda "bioconda::quast=5.2.0"
++	container "${ params.use_singularity ?
++            'https://depot.galaxyproject.org/singularity/quast:5.2.0--py38pl5321h5cf8b27_3' :
++            'biocontainers/quast:5.2.0--py38pl5321h5cf8b27_3' }"
+ 
+-    input:
+-    tuple val(meta) , path(consensus)
+-    tuple val(meta2), path(fasta)
+-    tuple val(meta3), path(gff)
++	input:
++	tuple val(sample), path(files), val(change_dot_for_underscore)
++	val "gtdbtk2_db"
+ 
+-    output:
+-    tuple val(meta), path("${prefix}")                   , emit: results
+-    tuple val(meta), path("${prefix}.tsv")               , emit: tsv
+-    tuple val(meta), path("${prefix}_transcriptome.tsv") , optional: true , emit: transcriptome
+-    tuple val(meta), path("${prefix}_misassemblies.tsv") , optional: true , emit: misassemblies
+-    tuple val(meta), path("${prefix}_unaligned.tsv")     , optional: true , emit: unaligned
+-    path "versions.yml"                                  , emit: versions
++	output:
++	path "quast", emit: quast
++	path "versions.yml", emit: versions
+ 
+-    when:
+-    task.ext.when == null || task.ext.when
+-
+-    script:
+-    def args      = task.ext.args   ?: ''
+-    prefix        = task.ext.prefix ?: "${meta.id}"
+-    def features  = gff             ?  "--features $gff" : ''
+-    def reference = fasta           ?  "-r $fasta"       : ''
+-    """
+-    quast.py \\
+-        --output-dir $prefix \\
+-        $reference \\
+-        $features \\
+-        --threads $task.cpus \\
+-        $args \\
+-        ${consensus.join(' ')}
+-
+-    ln -s ${prefix}/report.tsv ${prefix}.tsv
+-    [ -f  ${prefix}/contigs_reports/all_alignments_transcriptome.tsv ] && ln -s ${prefix}/contigs_reports/all_alignments_transcriptome.tsv ${prefix}_transcriptome.tsv
+-    [ -f  ${prefix}/contigs_reports/misassemblies_report.tsv         ] && ln -s ${prefix}/contigs_reports/misassemblies_report.tsv ${prefix}_misassemblies.tsv
+-    [ -f  ${prefix}/contigs_reports/unaligned_report.tsv             ] && ln -s ${prefix}/contigs_reports/unaligned_report.tsv ${prefix}_unaligned.tsv
+-
+-    cat <<-END_VERSIONS > versions.yml
+-    "${task.process}":
+-        quast: \$(quast.py --version 2>&1 | sed 's/^.*QUAST v//; s/ .*\$//')
+-    END_VERSIONS
+-    """
+-
+-    stub:
+-    def args      = task.ext.args   ?: ''
+-    prefix        = task.ext.prefix ?: "${meta.id}"
+-    def features  = gff             ? "--features $gff" : ''
+-    def reference = fasta           ? "-r $fasta" : ''
+-
+-    """
+-    mkdir -p $prefix
+-    touch $prefix/report.tsv
+-    touch $prefix/report.html
+-    touch $prefix/report.pdf
+-    touch $prefix/quast.log
+-    touch $prefix/transposed_report.txt
+-    touch $prefix/transposed_report.tex
+-    touch $prefix/icarus.html
+-    touch $prefix/report.tex
+-    touch $prefix/report.txt
+-
+-    mkdir -p $prefix/basic_stats
+-    touch $prefix/basic_stats/cumulative_plot.pdf
+-    touch $prefix/basic_stats/Nx_plot.pdf
+-    touch $prefix/basic_stats/genome_GC_content_plot.pdf
+-    touch $prefix/basic_stats/GC_content_plot.pdf
+-
+-    mkdir -p $prefix/icarus_viewers
+-    touch $prefix/icarus_viewers/contig_size_viewer.html
+-
+-    ln -s $prefix/report.tsv ${prefix}.tsv
+-
+-    if [ $fasta ]; then
+-        touch $prefix/basic_stats/NGx_plot.pdf
+-        touch $prefix/basic_stats/gc.icarus.txt
+-
+-        mkdir -p $prefix/aligned_stats
+-        touch $prefix/aligned_stats/NAx_plot.pdf
+-        touch $prefix/aligned_stats/NGAx_plot.pdf
+-        touch $prefix/aligned_stats/cumulative_plot.pdf
+-
+-        mkdir -p $prefix/contigs_reports
+-        touch $prefix/contigs_reports/all_alignments_transcriptome.tsv
+-        touch $prefix/contigs_reports/contigs_report_transcriptome.mis_contigs.info
+-        touch $prefix/contigs_reports/contigs_report_transcriptome.stderr
+-        touch $prefix/contigs_reports/contigs_report_transcriptome.stdout
+-        touch $prefix/contigs_reports/contigs_report_transcriptome.unaligned.info
+-        mkdir -p $prefix/contigs_reports/minimap_output
+-        touch $prefix/contigs_reports/minimap_output/transcriptome.coords
+-        touch $prefix/contigs_reports/minimap_output/transcriptome.coords.filtered
+-        touch $prefix/contigs_reports/minimap_output/transcriptome.coords_tmp
+-        touch $prefix/contigs_reports/minimap_output/transcriptome.sf
+-        touch $prefix/contigs_reports/minimap_output/transcriptome.unaligned
+-        touch $prefix/contigs_reports/minimap_output/transcriptome.used_snps
+-        touch $prefix/contigs_reports/misassemblies_frcurve_plot.pdf
+-        touch $prefix/contigs_reports/misassemblies_plot.pdf
+-        touch $prefix/contigs_reports/misassemblies_report.tex
+-        touch $prefix/contigs_reports/misassemblies_report.tsv
+-        touch $prefix/contigs_reports/misassemblies_report.txt
+-        touch $prefix/contigs_reports/transcriptome.mis_contigs.fa
+-        touch $prefix/contigs_reports/transposed_report_misassemblies.tex
+-        touch $prefix/contigs_reports/transposed_report_misassemblies.tsv
+-        touch $prefix/contigs_reports/transposed_report_misassemblies.txt
+-        touch $prefix/contigs_reports/unaligned_report.tex
+-        touch $prefix/contigs_reports/unaligned_report.tsv
+-        touch $prefix/contigs_reports/unaligned_report.txt
+-
+-        mkdir -p $prefix/genome_stats
+-        touch $prefix/genome_stats/genome_info.txt
+-        touch $prefix/genome_stats/transcriptome_gaps.txt
+-        touch $prefix/icarus_viewers/alignment_viewer.html
+-
+-        ln -sf ${prefix}/contigs_reports/misassemblies_report.tsv ${prefix}_misassemblies.tsv
+-        ln -sf ${prefix}/contigs_reports/unaligned_report.tsv ${prefix}_unaligned.tsv
+-        ln -sf ${prefix}/contigs_reports/all_alignments_transcriptome.tsv ${prefix}_transcriptome.tsv
+-
+-    fi
+-
+-    if ([ $fasta ] && [ $gff ]); then
+-        touch $prefix/genome_stats/features_cumulative_plot.pdf
+-        touch $prefix/genome_stats/features_frcurve_plot.pdf
+-    fi
+-
+-    cat <<-END_VERSIONS > versions.yml
+-    "${task.process}":
+-        quast: \$(quast.py --version 2>&1 | sed 's/^.*QUAST v//; s/ .*\$//')
+-    END_VERSIONS
+-    """
++	script:
++	def max_reference = "--max-ref-number ${params.max_ref_number}"
++	def min_contig = "--min-contig ${params.min_contig}"
++	"""
++	quast.sh ${files} $max_reference $min_contig $task.cpus
++	
++	cat <<-END_VERSIONS > versions.yml
++	"${task.process}":
++		quast: \$(quast.py --version 2>&1 | sed 's/^.*QUAST v//; s/ .*\$//')
++	END_VERSIONS
++	"""
+ }
+
+************************************************************

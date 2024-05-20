@@ -1,0 +1,12 @@
+{
+    "Should run without failures": {
+        "content": [
+            "final_df.tsv:md5,5962921ac3f784f7661717b1d42ce48b"
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-05-19T16:16:50.773427668"
+    }
+}

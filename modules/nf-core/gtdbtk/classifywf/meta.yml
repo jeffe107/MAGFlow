@@ -1,0 +1,46 @@
+name: gtdbtk_classifywf
+description: GTDB-Tk is a software toolkit for assigning objective taxonomic classifications to bacterial and archaeal genomes based on the Genome Database Taxonomy GTDB.
+keywords:
+  - GTDB taxonomy
+  - taxonomic classification
+  - metagenomics
+  - classification
+  - genome taxonomy database
+  - bacteria
+  - archaea
+tools:
+  - gtdbtk:
+      description: GTDB-Tk is a software toolkit for assigning objective taxonomic classifications to bacterial and archaeal genomes based on the Genome Database Taxonomy GTDB.
+      homepage: https://ecogenomics.github.io/GTDBTk/
+      documentation: https://ecogenomics.github.io/GTDBTk/
+      tool_dev_url: https://github.com/Ecogenomics/GTDBTk
+      doi: "10.1093/bioinformatics/btz848"
+      licence: ["GNU General Public v3 (GPL v3)"]
+input:
+  - sample:
+      type: val
+      description: Sample name.
+  - files:
+      type: directory
+      description: Path where the files containing nucleic acid sequence file in FASTA format "*.{fasta,fna,fa}".
+      pattern: 
+  - change_dot_for_underscore:
+      type: string
+      description: Output from the process CHANGE_DOT_FOR_UNDERSCORE indicating that dots were removed from the file name.
+  - gtdbtk2_db:
+      type: string
+      description: Output from the process GTDBTK2_DB indicating that GTDB-Tk2 database was downloaded successfully.
+output:
+  - gtdbtk2:
+      type: directory
+      description: Directory containing all the files generated.
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@skrakau"
+  - "@abhi18av"
+maintainers:
+  - "@skrakau"
+  - "@abhi18av"

@@ -1,0 +1,88 @@
+Changes in module 'nf-core/gunc/downloaddb'
+--- modules/nf-core/gunc/downloaddb/environment.yml
++++ modules/nf-core/gunc/downloaddb/environment.yml
+@@ -4,4 +4,4 @@
+   - bioconda
+   - defaults
+ dependencies:
+-  - bioconda::gunc=1.0.5
++  - bioconda::gunc=1.0.6
+
+--- modules/nf-core/gunc/downloaddb/meta.yml
++++ modules/nf-core/gunc/downloaddb/meta.yml
+@@ -15,20 +15,10 @@
+       tool_dev_url: https://github.com/grp-bork/gunc
+       doi: "10.1186/s13059-021-02393-0"
+       licence: ["GNU General Public v3 or later (GPL v3+)"]
+-input:
+-  - db_name:
+-      type: string
+-      description: "Which database to download. Options: progenomes or gtdb"
+-      pattern: "progenomes|gtdb"
+ output:
+-  - versions:
+-      type: file
+-      description: File containing software versions
+-      pattern: "versions.yml"
+-  - db:
+-      type: file
+-      description: GUNC database file
+-      pattern: "*.dmnd"
++  - stdout:
++      type: val
++      description: Value verifying that the database was downloaded successfully.
+ authors:
+   - "@jfy133"
+ maintainers:
+
+--- modules/nf-core/gunc/downloaddb/main.nf
++++ modules/nf-core/gunc/downloaddb/main.nf
+@@ -1,30 +1,20 @@
+-process GUNC_DOWNLOADDB {
+-    tag "$db_name"
+-    label 'process_single'
++process GUNC_DB {
++	label 'process_single'
+ 
+-    conda "${moduleDir}/environment.yml"
+-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+-        'https://depot.galaxyproject.org/singularity/gunc:1.0.5--pyhdfd78af_0' :
+-        'biocontainers/gunc:1.0.5--pyhdfd78af_0' }"
++	conda "bioconda::gunc=1.0.6"
++	container "${ params.use_singularity ?
++            'https://depot.galaxyproject.org/singularity/gunc:1.0.6--pyhdfd78af_0' :
++            'biocontainers/gunc:1.0.6--pyhdfd78af_0' }"
++	containerOptions "${ params.directory_to_bind == null ? '' : "--bind ${params.directory_to_bind}" }"
+ 
+-    input:
+-    val db_name
++	output:
++	stdout
+ 
+-    output:
+-    path "*.dmnd"       , emit: db
+-    path "versions.yml" , emit: versions
+-
+-    when:
+-    task.ext.when == null || task.ext.when
+-
+-    script:
+-    def args = task.ext.args ?: ''
+-    """
+-    gunc download_db . -db $db_name $args
+-
+-    cat <<-END_VERSIONS > versions.yml
+-    "${task.process}":
+-        gunc: \$( gunc --version )
+-    END_VERSIONS
+-    """
++	script:
++	def outdir = params.outdir
++	def path_db = "${outdir}/databases/GUNC_db/gunc_db_progenomes2.1.dmnd"
++	"""
++	[ -f $path_db ] || gunc_download_db.sh $outdir
++	echo "GUNC database is ready"
++	"""
+ }
+
+************************************************************

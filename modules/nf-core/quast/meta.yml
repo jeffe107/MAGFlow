@@ -1,0 +1,43 @@
+name: quast
+description: Quality Assessment Tool for Genome Assemblies
+keywords:
+  - quast
+  - assembly
+  - quality
+  - contig
+  - scaffold
+tools:
+  - quast:
+      description: |
+        QUAST calculates quality metrics for genome assemblies
+      homepage: http://bioinf.spbau.ru/quast
+      doi: 10.1093/bioinformatics/btt086
+      licence: ["GPL-2.0-only"]
+nput:
+  - sample:
+      type: val
+      description: Sample name.
+  - files:
+      type: directory
+      description: Path where the files containing nucleic acid sequence file in FASTA format "*.{fasta,fna,fa}".
+      pattern: 
+  - change_dot_for_underscore:
+      type: string
+      description: Output from the process CHANGE_DOT_FOR_UNDERSCORE indicating that dots were removed from the file name.
+  - gtdbtk2_db:
+      type: string
+      description: Output from the process GTDBTK2_DB indicating that GTDB-Tk2 database was downloaded successfully.
+output:
+  - quast:
+      type: directory
+      description: Directory containing all the files generated.
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@drpatelh"
+  - "@kevinmenden"
+maintainers:
+  - "@drpatelh"
+  - "@kevinmenden"

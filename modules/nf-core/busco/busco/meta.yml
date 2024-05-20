@@ -1,0 +1,51 @@
+name: busco_busco
+description: Benchmarking Universal Single Copy Orthologs
+keywords:
+  - quality control
+  - genome
+  - transcriptome
+  - proteome
+tools:
+  - busco:
+      description: BUSCO provides measures for quantitative assessment of genome assembly, gene set, and transcriptome completeness based on evolutionarily informed expectations of gene content from near-universal single-copy orthologs selected from OrthoDB.
+      homepage: https://busco.ezlab.org/
+      documentation: https://busco.ezlab.org/busco_userguide.html
+      tool_dev_url: https://gitlab.com/ezlab/busco
+      doi: "10.1007/978-1-4939-9173-0_14"
+      licence: ["MIT"]
+input:
+  - sample:
+      type: val
+      description: Sample name.
+  - files:
+      type: directory
+      description: Path where the files containing nucleic acid sequence file in FASTA format "*.{fasta,fna,fa}".
+      pattern: 
+  - change_dot_for_underscore:
+      type: string
+      description: Output from the process CHANGE_DOT_FOR_UNDERSCORE indicating that dots were removed from the file name.
+  - gtdbtk2_db:
+      type: string
+      description: Output from the process GTDBTK2_DB indicating that GTDB-Tk2 database was downloaded successfully.
+output:
+  - busco:
+      type: directory
+      description: Directory containing all the files generated.
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "@priyanka-surana"
+  - "@charles-plessy"
+  - "@mahesh-panchal"
+  - "@muffato"
+  - "@jvhagey"
+  - "@gallvp"
+maintainers:
+  - "@priyanka-surana"
+  - "@charles-plessy"
+  - "@mahesh-panchal"
+  - "@muffato"
+  - "@jvhagey"
+  - "@gallvp"
