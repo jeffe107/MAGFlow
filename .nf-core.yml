@@ -14,8 +14,7 @@ lint:
   - docs/images/nf-core-magflow_logo_light.png
   - docs/images/nf-core-magflow_logo_dark.png
   - .github/ISSUE_TEMPLATE/bug_report.yml
-  multiqc_config:
-  - report_comment
+  - multiqc_config: False
   nextflow_config:
   - manifest.name
   - manifest.homePage
