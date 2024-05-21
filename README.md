@@ -59,7 +59,7 @@ Please check in the *Pipeline Usage* section to see how to input one or another.
 - detects chimerism and contamination by running [GUNC](https://github.com/grp-bork/gunc) v1.0.6.
 - optionally assigns taxonomy to bins using [GTDB-Tk2](https://ecogenomics.github.io/GTDBTk/index.html) v2.3.2.
 
-Finally, a file named *final_df.tsv* will be generated and used to display the dashboard using [BIgMAG](https://github.com/jeffe107/BIgMAG).
+Finally, a file named *final_df.tsv* will be generated, and it can be used to display the dashboard using [BIgMAG](https://github.com/jeffe107/BIgMAG).
 
 ## Pipeline Usage
 The basic usage of the pipeline can be achieved by running: 
