@@ -365,9 +365,9 @@
         {
             "$ref": "#/definitions/generic_options"
         },
-	{
+	    {
 	    "$ref": "#/definitions/options_for_busco"
-	},
+	    },
        	{
             "$ref": "#/definitions/options_for_checkm2"
        	},
