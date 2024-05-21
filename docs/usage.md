@@ -26,6 +26,8 @@ In the case of the database required by GTDB-Tk2, MAGFlow does not download by d
 
 As mentioned before, the databases downloaded by the pipeline are stored in your output directory inside a folder named `databases`, you may want to keep them for further runs of the pipeline and include them with the previously provided flags, speeding up the process.
 
+### Parameters
+
 If you wish to repeatedly use the same parameters for multiple runs, rather than specifying each flag in the command, you can specify these in a params file.
 
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
@@ -37,7 +39,7 @@ Do not use `-c <file>` to specify parameters as this will result in errors. Cust
 The above pipeline run specified with a params file in yaml format:
 
 ```bash
-nextflow run jeffe107/magflow -profile docker -params-file params.yaml
+nextflow run MAGFlow/main.nf -profile docker -params-file params.yaml
 ```
 
 with `params.yaml` containing:
