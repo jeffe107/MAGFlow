@@ -4,14 +4,14 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { BUSCO				}	from '../modules/nf-core/busco/busco/main.nf'
-include { CHECKM2			}	from '../modules/nf-core/checkm2/predict/main.nf'
-include { CHECKM2_DB			}	from '../modules/nf-core/checkm2/databasedownload/main.nf'
-include { GTDBTK2                       }	from '../modules/nf-core/gtdbtk/classifywf/main.nf'
-include { GUNC				}	from '../modules/nf-core/gunc/run/main.nf'
-include { GUNC_DB			}	from '../modules/nf-core/gunc/downloaddb/main.nf'
-include { QUAST				}	from '../modules/nf-core/quast/main.nf'
-include { softwareVersionsToYAML	}	from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { BUSCO				                }	from '../modules/nf-core/busco/busco/main.nf'
+include { CHECKM2			                }	from '../modules/nf-core/checkm2/predict/main.nf'
+include { CHECKM2_DB			            }	from '../modules/nf-core/checkm2/databasedownload/main.nf'
+include { GTDBTK2                           }	from '../modules/nf-core/gtdbtk/classifywf/main.nf'
+include { GUNC				                }	from '../modules/nf-core/gunc/run/main.nf'
+include { GUNC_DB			                }	from '../modules/nf-core/gunc/downloaddb/main.nf'
+include { QUAST				                }	from '../modules/nf-core/quast/main.nf'
+include { softwareVersionsToYAML	        }	from '../subworkflows/nf-core/utils_nfcore_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,13 +23,13 @@ include { softwareVersionsToYAML	}	from '../subworkflows/nf-core/utils_nfcore_pi
 // MODULE: Local to the pipeline
 //
 
-include { CHANGE_DOT_FOR_UNDERSCORE	}	from '../modules/local/changedotforunderscore.nf'
-include { CONCAT_DFS			}	from '../modules/local/concatdfs.nf'
-include { DECOMPRESS			}	from '../modules/local/decompress.nf'
-include { EMPTY_BINS			}	from '../modules/local/emptybins.nf'
-include { FINAL_DF			}	from '../modules/local/finaldf.nf'
-include { GTDBTK2_DB			}	from '../modules/local/gtdbtk2db.nf'
-include { REMOVE_TMP			}	from '../modules/local/removetmp.nf'
+include { CHANGE_DOT_FOR_UNDERSCORE	        }	from '../modules/local/changedotforunderscore.nf'
+include { CONCAT_DFS			            }	from '../modules/local/concatdfs.nf'
+include { DECOMPRESS			            }	from '../modules/local/decompress.nf'
+include { EMPTY_BINS			            }	from '../modules/local/emptybins.nf'
+include { FINAL_DF			                }	from '../modules/local/finaldf.nf'
+include { GTDBTK2_DB			            }	from '../modules/local/gtdbtk2db.nf'
+include { REMOVE_TMP			            }	from '../modules/local/removetmp.nf'
 
 /*
  * workflow
