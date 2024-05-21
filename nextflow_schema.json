@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "$id": "https://raw.githubusercontent.com/BUGFri/magflow/master/nextflow_schema.json",
+    "$id": "https://raw.githubusercontent.com/jeffe107/magflow/master/nextflow_schema.json",
     "title": "BUGFri/magflow pipeline parameters",
     "description": "Workflow for MAG quality assessment and taxonomical annotation.",
     "type": "object",
@@ -12,22 +12,23 @@
             "description": "Define where the pipeline should find input data and save output data.",
             "required": [
                 "files",
+		        "csv_file",
                 "outdir"
             ],
             "properties": {
-                "csv_file": {
-                    "type":"string",
-                    "fa_icon":"fas fa-file-csv",
-                    "description":"csv file containing the sampleId and the files.",
-                    "hidden":true,
-                    "help_text":"You can use a csv file as input to run MAGFlow you just need to add the the sampleId and the path to the files."
-                },
                 "files": {
                     "type":"string",
                     "fa_icon":"fa fa-file-text-o",
                     "description":"Path to the directory that contains the samples/pipelines results.",
                     "hidden":false,
                     "help_text":"Please make sure that your folder structure follows the template provided in the tutorial."
+                },
+                "csv_file": {
+                    "type":"string",
+                    "fa_icon":"fas fa-file-csv",
+                    "description":"csv file containing the sampleId and the files.",
+                    "hidden":true,
+                    "help_text":"You can use a csv file as input to run MAGFlow you just need to add the the sampleId and the path to the files."
                 },
                 "outdir": {
                     "type": "string",
@@ -41,6 +42,17 @@
                     "fa_icon": "fas fa-envelope",
                     "help_text": "Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (`~/.nextflow/config`) then you don't need to specify this on the command line for every run.",
                     "pattern": "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$"
+                },
+                "input": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_input.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Path to comma-separated file containing information about the samples in the experiment.",
+                    "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
+                    "fa_icon": "fas fa-file-csv"
                 }
             }
         },
@@ -336,18 +348,7 @@
                     "description":"Argument to include any additional directory to bind during container execution.",
                     "hidden":true,
                     "help_text":"Use it if the execution of the pipeline fails while using profiles that require to mount directories, i.e. apptainer, throwing an error related with problems to find any file."
-		    },
-            "input": {
-                "type": "string",
-                "format": "file-path",
-                "exists": true,
-                "schema": "assets/schema_input.json",
-                "mimetype": "text/csv",
-                "pattern": "^\\S+\\.csv$",
-                "description": "Path to comma-separated file containing information about the samples in the experiment.",
-                "help_text": "You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row.",
-                "fa_icon": "fas fa-file-csv"
-            }
+		    }
             }
         }
     },
