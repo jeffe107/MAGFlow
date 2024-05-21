@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "$id": "https://raw.githubusercontent.com/jeffe107/magflow/master/nextflow_schema.json",
-    "title": "BUGFri/magflow pipeline parameters",
+    "title": "jeffe107/magflow pipeline parameters",
     "description": "Workflow for MAG quality assessment and taxonomical annotation.",
     "type": "object",
     "definitions": {
