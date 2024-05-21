@@ -1,4 +1,5 @@
 lint:
+  multiqc_config: False
   files_exist:
   - CODE_OF_CONDUCT.md
   - assets/nf-core-magflow_logo_light.png
@@ -8,13 +9,14 @@ lint:
   - .github/workflows/awstest.yml
   - .github/workflows/awsfulltest.yml
   - conf/igenomes.config
+  - .github/workflows/ci.yml
   files_unchanged:
   - CODE_OF_CONDUCT.md
   - assets/nf-core-magflow_logo_light.png
   - docs/images/nf-core-magflow_logo_light.png
   - docs/images/nf-core-magflow_logo_dark.png
   - .github/ISSUE_TEMPLATE/bug_report.yml
-  - multiqc_config: False
+  - .github/workflows/linting.yml
   nextflow_config:
   - manifest.name
   - manifest.homePage
