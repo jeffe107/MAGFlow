@@ -29,10 +29,6 @@ Please check in the *Pipeline Usage* section to see how to input one or another.
 > [!WARNING]
 > Please make sure that all of the bins in the same folder have the same extension. Bins belonging to different samples can have different extensions.
 
-<p align="center">
-    <img src="assets/workflow.png" alt="MAGFlow" width="90%">
-</p>
-
 - examines completeness and contamination with [CheckM2](https://github.com/chklovski/CheckM2) v1.0.1 and [BUSCO](https://busco.ezlab.org/busco_userguide.html) v5.7.0.
 - determines different metrics and statistics using [QUAST](https://quast.sourceforge.net/) v5.2.0.
 - detects chimerism and contamination by running [GUNC](https://github.com/grp-bork/gunc) v1.0.6.
