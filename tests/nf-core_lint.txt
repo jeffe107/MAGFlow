@@ -6,6 +6,7 @@
 
     nf-core/tools version 2.14.1 - https://nf-co.re
 
+
 INFO     Testing pipeline: .
 
 ╭─ [?] 17 Pipeline Tests Ignored ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
@@ -29,11 +30,8 @@ INFO     Testing pipeline: .
 │ actions_awstest: 'awstest.yml' workflow not found: ./.github/workflows/awstest.yml                                                                        │
 │                                                                                                                                                           │
 ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ [!] 7 Pipeline Test Warnings ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+╭─ [!] 5 Pipeline Test Warnings ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
 │                                                                                                                                                           │
-│ pipeline_todos: TODO string in usage.md: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add │
-│ to) the main nf-core website.                                                                                                                             │
-│ pipeline_todos: TODO string in output.md: Write this documentation describing your workflow's output                                                      │
 │ pipeline_todos: TODO string in ci.yml: You can customise CI pipeline run tests as required                                                                │
 │ pipeline_todos: TODO string in methods_description_template.yml: #Update the HTML below to your preferred methods description, e.g. add publication       │
 │ citation for this pipeline                                                                                                                                │
@@ -89,6 +87,6 @@ INFO     Testing pipeline: .
 ├───────────────────────┤
 │ [✔] 260 Tests Passed  │
 │ [?]  17 Tests Ignored │
-│ [!]  41 Test Warnings │
+│ [!]  39 Test Warnings │
 │ [✗]   0 Tests Failed  │
 ╰───────────────────────╯
