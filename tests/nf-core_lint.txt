@@ -1,0 +1,90 @@
+
+
+
+
+
+
+╭─ [?] 17 Pipeline Tests Ignored ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                           │
+│ files_exist: File is ignored: CODE_OF_CONDUCT.md                                                                                                          │
+│ files_exist: File is ignored: assets/nf-core-magflow_logo_light.png                                                                                       │
+│ files_exist: File is ignored: docs/images/nf-core-magflow_logo_light.png                                                                                  │
+│ files_exist: File is ignored: docs/images/nf-core-magflow_logo_dark.png                                                                                   │
+│ files_exist: File is ignored: .github/ISSUE_TEMPLATE/config.yml                                                                                           │
+│ files_exist: File is ignored: .github/workflows/awstest.yml                                                                                               │
+│ files_exist: File is ignored: .github/workflows/awsfulltest.yml                                                                                           │
+│ files_exist: File is ignored: conf/igenomes.config                                                                                                        │
+│ nextflow_config: Config variable ignored: manifest.name                                                                                                   │
+│ nextflow_config: Config variable ignored: manifest.homePage                                                                                               │
+│ files_unchanged: File ignored due to lint config: CODE_OF_CONDUCT.md                                                                                      │
+│ files_unchanged: File ignored due to lint config: .github/ISSUE_TEMPLATE/bug_report.yml                                                                   │
+│ files_unchanged: File does not exist: .github/ISSUE_TEMPLATE/config.yml                                                                                   │
+│ files_unchanged: File ignored due to lint config: assets/nf-core-magflow_logo_light.png                                                                   │
+│ files_unchanged: File ignored due to lint config: docs/images/nf-core-magflow_logo_light.png                                                              │
+│ files_unchanged: File ignored due to lint config: docs/images/nf-core-magflow_logo_dark.png                                                               │
+│ actions_awstest: 'awstest.yml' workflow not found: ./.github/workflows/awstest.yml                                                                        │
+│                                                                                                                                                           │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ [!] 7 Pipeline Test Warnings ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                                                                                                           │
+│ pipeline_todos: TODO string in usage.md: Add documentation about anything specific to running your pipeline. For general topics, please point to (and add │
+│ to) the main nf-core website.                                                                                                                             │
+│ pipeline_todos: TODO string in output.md: Write this documentation describing your workflow's output                                                      │
+│ pipeline_todos: TODO string in ci.yml: You can customise CI pipeline run tests as required                                                                │
+│ pipeline_todos: TODO string in methods_description_template.yml: #Update the HTML below to your preferred methods description, e.g. add publication       │
+│ citation for this pipeline                                                                                                                                │
+│ pipeline_todos: TODO string in main.nf: Optionally add in-text citation tools to this list.                                                               │
+│ pipeline_todos: TODO string in main.nf: Optionally add bibliographic entries to this list.                                                                │
+│ pipeline_todos: TODO string in main.nf: Only uncomment below if logic in toolCitationText/toolBibliographyText has been filled!                           │
+│                                                                                                                                                           │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+╭─ [!] 34 Module Test Warnings ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                           ╷                                         ╷                                                                                     │
+│ Module name               │ File path                               │ Test message                                                                        │
+│╶──────────────────────────┼─────────────────────────────────────────┼────────────────────────────────────────────────────────────────────────────────────╴│
+│ changedotforunderscore    │ modules/local/changedotforunderscore.nf │ Container versions do not match                                                     │
+│ concatdfs                 │ modules/local/concatdfs.nf              │ Container versions do not match                                                     │
+│ decompress                │ modules/local/decompress.nf             │ Container versions do not match                                                     │
+│ emptybins                 │ modules/local/emptybins.nf              │ Container versions do not match                                                     │
+│ finaldf                   │ modules/local/finaldf.nf                │ Container versions do not match                                                     │
+│ removetmp                 │ modules/local/removetmp.nf              │ Container versions do not match                                                     │
+│ changedotforunderscore    │ modules/local/changedotforunderscore.nf │ No process 'output' block found                                                     │
+│ concatdfs                 │ modules/local/concatdfs.nf              │ No process 'output' block found                                                     │
+│ decompress                │ modules/local/decompress.nf             │ No process 'output' block found                                                     │
+│ emptybins                 │ modules/local/emptybins.nf              │ No process 'output' block found                                                     │
+│ finaldf                   │ modules/local/finaldf.nf                │ No process 'output' block found                                                     │
+│ gtdbtk2db                 │ modules/local/gtdbtk2db.nf              │ No process 'output' block found                                                     │
+│ removetmp                 │ modules/local/removetmp.nf              │ No process 'output' block found                                                     │
+│ changedotforunderscore    │ modules/local/changedotforunderscore.nf │ Process name not used for versions.yml                                              │
+│ concatdfs                 │ modules/local/concatdfs.nf              │ Process name not used for versions.yml                                              │
+│ decompress                │ modules/local/decompress.nf             │ Process name not used for versions.yml                                              │
+│ emptybins                 │ modules/local/emptybins.nf              │ Process name not used for versions.yml                                              │
+│ finaldf                   │ modules/local/finaldf.nf                │ Process name not used for versions.yml                                              │
+│ gtdbtk2db                 │ modules/local/gtdbtk2db.nf              │ Process name not used for versions.yml                                              │
+│ removetmp                 │ modules/local/removetmp.nf              │ Process name not used for versions.yml                                              │
+│ changedotforunderscore    │ modules/local/changedotforunderscore.nf │ Missing emit statement: tuple val(sample), path(files), stdout                      │
+│ concatdfs                 │ modules/local/concatdfs.nf              │ Missing emit statement: stdout                                                      │
+│ decompress                │ modules/local/decompress.nf             │ Missing emit statement: tuple val(sample), path(files), stdout                      │
+│ emptybins                 │ modules/local/emptybins.nf              │ Missing emit statement: tuple val(sample), path(files), stdout                      │
+│ finaldf                   │ modules/local/finaldf.nf                │ Missing emit statement: stdout                                                      │
+│ gtdbtk2db                 │ modules/local/gtdbtk2db.nf              │ Missing emit statement: stdout                                                      │
+│ removetmp                 │ modules/local/removetmp.nf              │ Missing emit statement: stdout                                                      │
+│ changedotforunderscore    │ modules/local/changedotforunderscore.nf │ when: condition has been removed                                                    │
+│ concatdfs                 │ modules/local/concatdfs.nf              │ when: condition has been removed                                                    │
+│ decompress                │ modules/local/decompress.nf             │ when: condition has been removed                                                    │
+│ emptybins                 │ modules/local/emptybins.nf              │ when: condition has been removed                                                    │
+│ finaldf                   │ modules/local/finaldf.nf                │ when: condition has been removed                                                    │
+│ gtdbtk2db                 │ modules/local/gtdbtk2db.nf              │ when: condition has been removed                                                    │
+│ removetmp                 │ modules/local/removetmp.nf              │ when: condition has been removed                                                    │
+│                           ╵                                         ╵                                                                                     │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+╭───────────────────────╮
+│ LINT RESULTS SUMMARY  │
+├───────────────────────┤
+│ [✔] 260 Tests Passed  │
+│ [?]  17 Tests Ignored │
+│ [!]  41 Test Warnings │
+│ [✗]   0 Tests Failed  │
+╰───────────────────────╯
