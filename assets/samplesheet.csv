@@ -5,3 +5,4 @@ MetaWRAP,/data/projects/p774_MARSD/outputs/MetaWRAP/SRR8359173/BIN_REFINEMENT/me
 MUFFIN,/data/projects/p774_MARSD/pipelines/MUFFIN/results/SRR8359173/assemble/binning/metabat2/bins_dir
 nf_core_mag,/data/projects/p774_MARSD/outputs/nf-core-mag/mock_community/SRR8359173/GenomeBinning/MetaBAT2/bins
 SnakeMAGs,/data/projects/p774_MARSD/outputs/SnakeMAGs/SRR8359173/SRR8359173/Binning/bins
+
