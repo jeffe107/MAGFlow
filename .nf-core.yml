@@ -10,6 +10,7 @@ lint:
   - .github/workflows/awsfulltest.yml
   - conf/igenomes.config
   - .github/workflows/ci.yml
+  - conf/test_full.config
   files_unchanged:
   - CODE_OF_CONDUCT.md
   - assets/nf-core-magflow_logo_light.png
