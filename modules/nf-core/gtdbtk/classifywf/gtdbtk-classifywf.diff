@@ -1,13 +1,4 @@
 Changes in module 'nf-core/gtdbtk/classifywf'
---- modules/nf-core/gtdbtk/classifywf/environment.yml
-+++ modules/nf-core/gtdbtk/classifywf/environment.yml
-@@ -4,4 +4,4 @@
-   - bioconda
-   - defaults
- dependencies:
--  - bioconda::gtdbtk=2.4.0
-+  - bioconda::gtdbtk=2.3.2
-
 --- modules/nf-core/gtdbtk/classifywf/meta.yml
 +++ modules/nf-core/gtdbtk/classifywf/meta.yml
 @@ -17,69 +17,27 @@
@@ -112,10 +103,10 @@ Changes in module 'nf-core/gtdbtk/classifywf'
 -    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
 -        'https://depot.galaxyproject.org/singularity/gtdbtk:2.4.0--pyhdfd78af_1' :
 -        'biocontainers/gtdbtk:2.4.0--pyhdfd78af_1' }"
-+	conda "bioconda::gtdbtk=2.3.2"
++	conda "bioconda::gtdbtk=2.4.0"
 +        container "${ params.use_singularity ?
-+            'https://depot.galaxyproject.org/singularity/gtdbtk:2.3.2--pyhdfd78af_0' :
-+            'biocontainers/gtdbtk:2.3.2--pyhdfd78af_0' }"
++            'https://depot.galaxyproject.org/singularity/gtdbtk:2.4.0--pyhdfd78af_0' :
++            'biocontainers/gtdbtk:2.4.0--pyhdfd78af_0' }"
 +	containerOptions "${ params.directory_to_bind == null ? '' : "--bind ${params.directory_to_bind}" }"
  
 -    input:
