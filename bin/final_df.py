@@ -17,7 +17,7 @@ for df in dfs_list:
 
 first_column = final_df.pop('sample')
 final_df.insert(0,'sample',first_column)
-final_df = final_df.sort_values(['sample', 'Bin'])
+final_df = final_df.sort_values(['pass.GUNC', 'sample', 'Bin'])
 final_df = final_df.reset_index(drop=True)
 
 final_df.to_csv(f"{publish_dir}/final_df.tsv", sep="\t")
