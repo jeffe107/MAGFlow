@@ -159,7 +159,13 @@ QUAST files     → 'Assembly'
 Tool developed under the support of the *Federal Commission for Scholarships for Foreign Students* (FCS) through the program *Swiss Government Excellence Scholarships*.
 
 ## Citation
-If you find BIgMAG/MAGFlow useful, please cite us (paper on the way) or share this tool through platforms such as X and LinkedIn.
+If you find BIgMAG/MAGFlow useful, please cite our paper or share this tool through platforms such as X and LinkedIn:
+
+> **Metagenome quality metrics and taxonomical annotation visualization through the integration of MAGFlow and BIgMAG.**
+>
+> Yepes-García J and Falquet L.
+>
+> _F1000Research_ 2024, 13:640. doi: [10.12688/f1000research.152290.1](https://doi.org/10.12688/f1000research.152290.1).
 
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
