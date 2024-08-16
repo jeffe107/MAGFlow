@@ -6,7 +6,7 @@ https://code.askimed.com/nf-test
 
 [1mTest Workflow main.nf[0m
 
-  [1mTest[0m [49242c84] 'Should run without failures' [32mPASSED[0m (516.135s)
+  [1mTest[0m [dd08c0cf] 'Should run without failures' [32mPASSED[0m (1227.073s)
   Snapshots:
     1 created [Should run without failures]
 
@@ -14,5 +14,5 @@ https://code.askimed.com/nf-test
 Snapshot Summary:
   1 created
 
-[1m[32mSUCCESS: [0m[0mExecuted 1 tests in 516.14s
+[1m[32mSUCCESS: [0m[0mExecuted 1 tests in 1227.084s
 

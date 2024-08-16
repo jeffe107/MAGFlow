@@ -1,12 +1,12 @@
 {
     "Should run without failures": {
         "content": [
-            "final_df.tsv:md5,5962921ac3f784f7661717b1d42ce48b"
+            "final_df.tsv:md5,d660093ead196126d234b0c9a58bafd6"
         ],
         "meta": {
             "nf-test": "0.8.4",
-            "nextflow": "23.10.1"
+            "nextflow": "24.04.4"
         },
-        "timestamp": "2024-05-19T16:16:50.773427668"
+        "timestamp": "2024-08-16T17:19:26.609879118"
     }
 }

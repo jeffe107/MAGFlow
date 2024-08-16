@@ -17,7 +17,7 @@ process GTDBTK2 {
 	path "versions.yml", emit: versions
 	
 	script:
-	def VERSION = '2.3.2'
+	def VERSION = '2.4.0'
 	def outdir = params.outdir
 	def mash_db = "${outdir}/${sample}/mash_db"
 	def gtdbtk2_db = params.gtdbtk2_db ?

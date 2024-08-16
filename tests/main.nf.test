@@ -8,10 +8,11 @@ nextflow_pipeline {
 
         when {
             params {
-                files			= '/data/projects/p774_MARSD/nf_core/MAGFlow/data/*'
-		outdir			= '/data/projects/p774_MARSD/nf_core/magflow_passing_lint/output'
-		gtdbtk2_db              = '/data/projects/p774_MARSD/software/GTDB/release207_v2'
-		gunc_db                 = '/data/projects/p774_MARSD/databases/gunc/gunc_db_progenomes2.1.dmnd'
+                files			= '/data/projects/p774_MARSD/test/MAGFlow/data/*'
+		outdir			= '/data/projects/p774_MARSD/test/MAGFlow/output_nf_test'
+		gtdbtk2_db              = '/data/projects/p774_MARSD/test/output/databases/gtdbtk2/release220'
+		gunc_db                 = '/data/projects/p774_MARSD/test/output/databases/GUNC_db/gunc_db_progenomes2.1.dmnd'
+		checkm2_db		= '/data/projects/p774_MARSD/test/output/databases/CheckM2_database/uniref100.KO.1.dmnd'
 		directory_to_bind       = '/data/projects/p774_MARSD'
 
             }
@@ -20,9 +21,9 @@ nextflow_pipeline {
         then {
 		assertAll(
                 { assert workflow.success },
-		{ assert new File("/data/projects/p774_MARSD/nf_core/output/pipeline_info/software_versions.yml").exists() },
-		{ assert new File("/data/projects/p774_MARSD/nf_core/output/final_df.tsv").exists() },
-		{ assert snapshot(path("/data/projects/p774_MARSD/nf_core/output/final_df.tsv")).match() }
+		{ assert new File("/data/projects/p774_MARSD/test/MAGFlow/output_nf_test/pipeline_info/software_versions.yml").exists() },
+		{ assert new File("/data/projects/p774_MARSD/test/MAGFlow/output_nf_test/final_df.tsv").exists() },
+		{ assert snapshot(path("/data/projects/p774_MARSD/test/MAGFlow/output_nf_test/final_df.tsv")).match() }
 		)
         }
 
