@@ -18,6 +18,7 @@ lint:
   - docs/images/nf-core-magflow_logo_dark.png
   - .github/ISSUE_TEMPLATE/bug_report.yml
   - .github/workflows/linting.yml
+  - .gitignore
   nextflow_config:
   - manifest.name
   - manifest.homePage
