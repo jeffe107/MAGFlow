@@ -25,7 +25,6 @@ process BUSCO {
         $lineage $args
 
         cat <<-END_VERSIONS > versions.yml
-        "${task.process}":
                 busco: \$( busco --version 2>&1 | sed 's/^BUSCO //' )
         END_VERSIONS
         """

@@ -34,7 +34,6 @@ process GUNC {
 	$gunc_db $args
 
 	cat <<-END_VERSIONS > versions.yml
-	"${task.process}":
 		gunc: \$( gunc --version )
 	END_VERSIONS
 	"""

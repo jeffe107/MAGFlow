@@ -41,7 +41,6 @@ process GTDBTK2 {
 	$args
 	
 	cat <<-END_VERSIONS > versions.yml
-	"${task.process}":
 		gtdbtk: \$(echo "$VERSION")
 	END_VERSIONS
 	"""

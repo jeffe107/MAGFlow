@@ -34,7 +34,6 @@ process CHECKM2 {
 	$args
 
 	cat <<-END_VERSIONS > versions.yml
-	"${task.process}":
 		checkm2: \$(checkm2 --version)
 	END_VERSIONS
 	"""

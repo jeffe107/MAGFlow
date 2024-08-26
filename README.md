@@ -57,7 +57,7 @@ Please check in the *Pipeline Usage* section to see how to input one or another.
 - examines completeness and contamination with [CheckM2](https://github.com/chklovski/CheckM2) v1.0.1 and [BUSCO](https://busco.ezlab.org/busco_userguide.html) v5.7.0.
 - determines different metrics and statistics using [QUAST](https://quast.sourceforge.net/) v5.2.0.
 - detects chimerism and contamination by running [GUNC](https://github.com/grp-bork/gunc) v1.0.6.
-- optionally assigns taxonomy to bins using [GTDB-Tk2](https://ecogenomics.github.io/GTDBTk/index.html) v2.3.2.
+- optionally assigns taxonomy to bins using [GTDB-Tk2](https://ecogenomics.github.io/GTDBTk/index.html) v2.4.0.
 
 Finally, a file named *final_df.tsv* will be generated, and it can be used to display the dashboard using [BIgMAG](https://github.com/jeffe107/BIgMAG).
 

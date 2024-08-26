@@ -22,7 +22,6 @@ process QUAST {
 	quast.sh ${files} $max_reference $min_contig $task.cpus
 	
 	cat <<-END_VERSIONS > versions.yml
-	"${task.process}":
 		quast: \$(quast.py --version 2>&1 | sed 's/^.*QUAST v//; s/ .*\$//')
 	END_VERSIONS
 	"""
