@@ -1,5 +1,9 @@
 # MAGFlow
 
+<p align="center">
+    <img src="assets/MAGFlow-logo.png" alt="MAGFlow" width="50%">
+</p>
+
 MAGFlow serves as pipeline to generate the input file for [BIgMAG](https://github.com/jeffe107/BIgMAG) by measuring the quality of metagenomes through multiples tools and annotating them taxonomically.
 
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
